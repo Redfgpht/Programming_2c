@@ -8,11 +8,13 @@ namespace ObjectOrientedPractics.View
         {
             LoadData();
             InitializeComponent();
+            AppData.IsExitSaving = true;
+            ProjectSerializer.EnableAutoSave(this);
         }
 
         private void LoadData()
         {
-            ProjectSerializer.LoadData();
+            ProjectSerializer.LoadAllData();
 
             if (AppData.Items.Count == 0)
             {
@@ -27,9 +29,5 @@ namespace ObjectOrientedPractics.View
             AppData.Customers.Add(CustomerFactory.CreateRandomCustomer());
         }
 
-        private void itemsTabs1_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

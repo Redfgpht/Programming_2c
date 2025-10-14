@@ -29,46 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
-            itemsTabs1 = new ObjectOrientedPractics.View.Tabs.ItemsTabs();
             tabPage2 = new TabPage();
             customersTab1 = new ObjectOrientedPractics.View.Tabs.CustomersTab();
-            tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
+            tabPage1 = new TabPage();
+            itemsTabs1 = new ObjectOrientedPractics.View.Tabs.ItemsTabs();
+            tabControl1 = new TabControl();
             tabPage2.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabControl1.SuspendLayout();
             SuspendLayout();
-            // 
-            // tabControl1
-            // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(984, 561);
-            tabControl1.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            tabPage1.Controls.Add(itemsTabs1);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(976, 533);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "Items";
-            tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // itemsTabs1
-            // 
-            itemsTabs1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            itemsTabs1.Location = new Point(3, 3);
-            itemsTabs1.Name = "itemsTabs1";
-            itemsTabs1.Size = new Size(970, 527);
-            itemsTabs1.TabIndex = 0;
-            itemsTabs1.Load += itemsTabs1_Load;
             // 
             // tabPage2
             // 
@@ -89,6 +58,36 @@
             customersTab1.Size = new Size(970, 527);
             customersTab1.TabIndex = 0;
             // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(itemsTabs1);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(976, 533);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Items";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // itemsTabs1
+            // 
+            itemsTabs1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            itemsTabs1.Location = new Point(3, 3);
+            itemsTabs1.Name = "itemsTabs1";
+            itemsTabs1.Size = new Size(970, 527);
+            itemsTabs1.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Location = new Point(0, 0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(984, 561);
+            tabControl1.TabIndex = 0;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -100,18 +99,18 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Object Oriented Practics";
-            tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabControl1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TabControl tabControl1;
-        private TabPage tabPage1;
         private TabPage tabPage2;
-        private Tabs.ItemsTabs itemsTabs1;
         private Tabs.CustomersTab customersTab1;
+        private TabPage tabPage1;
+        private Tabs.ItemsTabs itemsTabs1;
+        private TabControl tabControl1;
     }
 }

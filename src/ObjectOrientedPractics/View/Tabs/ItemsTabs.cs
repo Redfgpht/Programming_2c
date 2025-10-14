@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.Services;
 using ObjectOrientedPractics.View.Dialogs;
 
@@ -15,6 +16,15 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             InitializeComponent();
             UpdateUI();
+
+            CategoryComboBox.Items.AddRange(Enum.GetValues(typeof(Category)).Cast<object>().ToArray());
+            CategoryComboBox.Format += (s, e) =>
+            {
+                if (e.ListItem is Category category)
+                {
+                    e.Value = category.GetDisplayName();
+                }
+            };
         }
 
         /// <summary>
@@ -35,6 +45,7 @@ namespace ObjectOrientedPractics.View.Tabs
             NameTextBox.Text = item.Name;
             CostTextBox.Text = item.Cost.ToString();
             DescriptionTextBox.Text = item.Information;
+            CategoryComboBox.SelectedIndex = Convert.ToInt32(item.Category);
         }
 
         /// <summary>
@@ -56,6 +67,7 @@ namespace ObjectOrientedPractics.View.Tabs
             if (ItemBox.Items != null && ItemBox.SelectedItem != null)
             {
                 _currentItem = ItemBox.SelectedItem as Item;
+                tableLayoutPanel4.Visible = true;
                 UpdateTextProperty(_currentItem);
             }
         }
@@ -136,18 +148,23 @@ namespace ObjectOrientedPractics.View.Tabs
                     NameTextBox.BackColor = AppColors.BaseInput;
                     CostTextBox.BackColor = AppColors.BaseInput;
                     DescriptionTextBox.BackColor = AppColors.BaseInput;
+                    tableLayoutPanel4.Visible = false;
                 }
+            }
+            else
+            {
+                MessageBox.Show("Вы не можете выполнить данную операцию!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
         /// Запрет ввода данных.
         /// </summary>
-        private void InputData(object sender, KeyPressEventArgs e)
-        {
-            ValueValidator.InterdictionInputData(sender, e);
-        }
+        private void InputData(object sender, KeyPressEventArgs e) => ValueValidator.InterdictionInputData(sender, e);
 
+        /// <summary>
+        /// Добавление нового товара.
+        /// </summary>
         private void AddRandomBtn_Click(object sender, EventArgs e)
         {
             AppData.Items.Add(ItemFactory.CreateRandomItem());
@@ -155,5 +172,12 @@ namespace ObjectOrientedPractics.View.Tabs
             MessageBox.Show("Вы добавили случайно сгенерированный товар!", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
+
+        /// <summary>
+        /// Изменение категории товара.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e) => _currentItem.Category = (Category)CategoryComboBox.SelectedIndex;
     }
 }
