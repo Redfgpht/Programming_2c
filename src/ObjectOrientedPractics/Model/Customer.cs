@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ObjectOrientedPractics.Services;
+using System.Net;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -22,7 +23,22 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Адрес.
         /// </summary>
-        private string _address;
+        private Address _address;
+
+        /// <summary>
+        /// Корзина покупателя.
+        /// </summary>
+        private Cart _cart;
+
+        /// <summary>
+        /// Список заказов.
+        /// </summary>
+        private List<Order> _orders;
+
+        /// <summary>
+        /// Является ли покупатель приоритетным.
+        /// </summary>
+        private bool _isPriority = false;
         #endregion
 
         /// <summary>
@@ -30,11 +46,13 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         /// <param name="fullname">Полное имя.</param>
         /// <param name="address">Адрес.</param>
-        public Customer(string fullname, string address)
+        public Customer(string fullname, Address address)
         {
             _id = IdGenerator.GetNextId();
             FullName = fullname;
             Address = address;
+            Cart = new Cart();
+            Orders = new List<Order>();
         }
 
         /// <summary>
@@ -44,11 +62,13 @@ namespace ObjectOrientedPractics.Model
         /// <param name="fullname">Полное имя.</param>
         /// <param name="address">Адрес.</param>
         [JsonConstructor]
-        public Customer(int id, string fullname, string address)
+        public Customer(int id, string fullname, Address address)
         {
             _id = id;
             FullName = fullname;
             Address = address;
+            Cart = new Cart();
+            Orders = new List<Order>();
         }
 
         /// <summary>
@@ -57,6 +77,8 @@ namespace ObjectOrientedPractics.Model
         public Customer()
         {
             _id = IdGenerator.GetNextId();
+            Cart = new Cart();
+            Orders = new List<Order>();
         }
 
         #region Properties
@@ -86,26 +108,24 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Адрес.
         /// </summary>
-        public string Address
-        {
-            get
-            {
-                return _address;
-            }
-            set
-            {
-                if (ValueValidator.AssertStringOnLength(value, 500, nameof(Address)))
-                {
-                    _address = value;
-                }
-            }
-        }
+        public Address Address { get => _address; set => _address = value; }
+
+        /// <summary>
+        /// Корзина.
+        /// </summary>
+        public Cart Cart { get => _cart; set => _cart = value; }
+
+        /// <summary>
+        /// Список заказов.
+        /// </summary>
+        public List<Order> Orders { get => _orders; set => _orders = value; }
+
         #endregion
 
         /// <summary>
         /// Метод переопределения ToString().
         /// </summary>
         /// <returns>Строку с информацией об покупателе.</returns>
-        public override string ToString() => $"{Id}| {FullName}";
+        public override string ToString() => $"{FullName}";
     }
 }
