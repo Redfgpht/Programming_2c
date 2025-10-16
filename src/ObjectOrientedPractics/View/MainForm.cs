@@ -1,4 +1,5 @@
-﻿using ObjectOrientedPractics.Services;
+﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Services;
 
 namespace ObjectOrientedPractics.View
 {
@@ -27,9 +28,18 @@ namespace ObjectOrientedPractics.View
             AppData.Customers.Add(CustomerFactory.CreateRandomCustomer());
         }
 
-        private void itemsTabs1_Load(object sender, EventArgs e)
-        {
 
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (tabControl1.SelectedIndex)
+            {
+                case 2:
+                    cartsTab1.UpdateUI();
+                    break;
+                case 3:
+                    ordersTab1.UpdateOrdersList(false);
+                    break;
+            }
         }
     }
 }
