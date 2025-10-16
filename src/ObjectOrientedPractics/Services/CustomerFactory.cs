@@ -2,12 +2,15 @@
 
 namespace ObjectOrientedPractics.Services
 {
+    /// <summary>
+    /// Фабрика для создания объектов класса <see cref="Customer"/>.
+    /// </summary>
     public static class CustomerFactory
     {
         private static readonly Random _random = new Random();
 
         private static readonly string[] _firstNames =
-        {
+                {
             "Иван", "Александр", "Сергей", "Дмитрий", "Алексей",
             "Андрей", "Максим", "Михаил", "Евгений", "Владимир",
             "Артем", "Никита", "Павел", "Роман", "Олег",
@@ -117,7 +120,7 @@ namespace ObjectOrientedPractics.Services
         };
 
         /// <summary>
-        /// Создает нового рандомного покупателя
+        /// Создает нового случайного покупателя.
         /// </summary>
         /// <returns>Новый объект <see cref="Customer"/>.</returns>
         public static Customer CreateRandomCustomer()
@@ -128,22 +131,55 @@ namespace ObjectOrientedPractics.Services
 
             string fullName = $"{lastName} {firstName} {middleName}";
 
-            string city = _cities[_random.Next(_cities.Length)];
-            string street = _streets[_random.Next(_streets.Length)];
-            int building = _random.Next(1, 200);
-            int apartment = _random.Next(1, 300);
-
-            string address = $"г. {city}, ул. {street}, д. {building}, кв. {apartment}";
+            // Создаем объект Address с использованием нового класса
+            Address address = CreateRandomAddress();
 
             return new Customer(fullName, address);
         }
 
         /// <summary>
-        /// Создает покупателя с указанными параметрами
+        /// Создает случайный адрес.
+        /// </summary>
+        /// <returns>Новый объект <see cref="Address"/>.</returns>
+        private static Address CreateRandomAddress()
+        {
+            return new Address
+            {
+                Index = _random.Next(100000, 200000), // 6-значный индекс
+                Country = "Россия",
+                City = _cities[_random.Next(_cities.Length)],
+                Street = _streets[_random.Next(_streets.Length)],
+                Building = _random.Next(1, 200).ToString(),
+                Apartment = _random.Next(1, 300).ToString()
+            };
+        }
+
+        /// <summary>
+        /// Создает покупателя с указанными параметрами.
         /// </summary>
         /// <param name="fullName">Полное имя.</param>
         /// <param name="address">Адрес.</param>
         /// <returns>Новый объект <see cref="Customer"/>.</returns>
-        public static Customer CreateCustomer(string fullName, string address) => new Customer(fullName, address);
+        public static Customer CreateCustomer(string fullName, Address address)
+        {
+            return new Customer(fullName, address);
+        }
+
+        /// <summary>
+        /// Создает покупателя с указанными параметрами адреса.
+        /// </summary>
+        /// <param name="fullName">Полное имя.</param>
+        /// <param name="index">Индекс.</param>
+        /// <param name="country">Страна.</param>
+        /// <param name="city">Город.</param>
+        /// <param name="street">Улица.</param>
+        /// <param name="building">Номер дома.</param>
+        /// <param name="apartment">Номер квартиры.</param>
+        /// <returns>Новый объект <see cref="Customer"/>.</returns>
+        public static Customer CreateCustomer(string fullName, int index, string country, string city, string street, string building, string apartment)
+        {
+            Address address = new Address(index, country, city, street, building, apartment);
+            return new Customer(fullName, address);
+        }
     }
 }

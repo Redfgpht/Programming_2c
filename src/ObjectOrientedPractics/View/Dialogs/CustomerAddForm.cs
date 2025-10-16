@@ -31,6 +31,7 @@ namespace ObjectOrientedPractics.View.Dialogs
             }
         }
 
+
         /// <summary>
         /// Добавление нового покупателя.
         /// </summary>

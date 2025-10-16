@@ -39,6 +39,7 @@ namespace ObjectOrientedPractics.Model
         /// Является ли покупатель приоритетным.
         /// </summary>
         private bool _isPriority = false;
+
         #endregion
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="address">Адрес.</param>
         public Customer(string fullname, Address address)
         {
-            _id = IdGenerator.GetNextId();
+            _id = IdGenerator.GetNextCustomerId();
             FullName = fullname;
             Address = address;
             Cart = new Cart();
@@ -79,6 +80,7 @@ namespace ObjectOrientedPractics.Model
             _id = IdGenerator.GetNextId();
             Cart = new Cart();
             Orders = new List<Order>();
+            _id = IdGenerator.GetNextCustomerId();
         }
 
         #region Properties
@@ -120,6 +122,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public List<Order> Orders { get => _orders; set => _orders = value; }
 
+        public Address Address { get; set; }
         #endregion
 
         /// <summary>

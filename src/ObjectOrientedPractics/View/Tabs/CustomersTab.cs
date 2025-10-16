@@ -41,6 +41,7 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 checkBox1.Checked = false;
             }
+
         }
 
         /// <summary>
