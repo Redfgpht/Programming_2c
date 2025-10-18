@@ -37,30 +37,28 @@
             tabPage4 = new TabPage();
             cartsTab2 = new ObjectOrientedPractics.View.Tabs.CartsTab();
             tabPage5 = new TabPage();
+            ordersTab2 = new ObjectOrientedPractics.View.Tabs.OrdersTab();
+            ExitSaving = new CheckBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             tabPage4.SuspendLayout();
+            tabPage5.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
             // 
-            tabPage2.Controls.Add(customersTab1);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(976, 533);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "Customers";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // customersTab1
-            // 
-            customersTab1.Dock = DockStyle.Fill;
-            customersTab1.Location = new Point(3, 3);
-            customersTab1.Name = "customersTab1";
-            customersTab1.Size = new Size(970, 527);
-            customersTab1.TabIndex = 0;
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage4);
+            tabControl1.Controls.Add(tabPage5);
+            tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Location = new Point(0, 0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(984, 561);
+            tabControl1.TabIndex = 0;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage1
             // 
@@ -80,7 +78,6 @@
             itemsTabs1.Name = "itemsTabs1";
             itemsTabs1.Size = new Size(970, 527);
             itemsTabs1.TabIndex = 0;
-            itemsTabs1.Load += itemsTabs1_Load;
             // 
             // tabPage2
             // 
@@ -88,7 +85,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(976, 533);
+            tabPage2.Size = new Size(192, 72);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Customers";
             tabPage2.UseVisualStyleBackColor = true;
@@ -98,46 +95,55 @@
             customersTab1.Dock = DockStyle.Fill;
             customersTab1.Location = new Point(3, 3);
             customersTab1.Name = "customersTab1";
-            customersTab1.Size = new Size(970, 527);
+            customersTab1.Size = new Size(186, 66);
             customersTab1.TabIndex = 0;
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(cartsTab2);
             tabPage4.Location = new Point(4, 24);
             tabPage4.Name = "tabPage4";
-            tabPage4.Size = new Size(976, 533);
+            tabPage4.Size = new Size(192, 72);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Carts";
             tabPage4.UseVisualStyleBackColor = true;
             // 
+            // cartsTab2
+            // 
+            cartsTab2.Dock = DockStyle.Fill;
+            cartsTab2.Location = new Point(0, 0);
+            cartsTab2.Name = "cartsTab2";
+            cartsTab2.Size = new Size(192, 72);
+            cartsTab2.TabIndex = 0;
+            // 
             // tabPage5
             // 
+            tabPage5.Controls.Add(ordersTab2);
             tabPage5.Location = new Point(4, 24);
             tabPage5.Name = "tabPage5";
-            tabPage5.Size = new Size(976, 533);
+            tabPage5.Size = new Size(192, 72);
             tabPage5.TabIndex = 4;
             tabPage5.Text = "Orders";
             tabPage5.UseVisualStyleBackColor = true;
             // 
-            // tabPage4
+            // ordersTab2
             // 
-            tabPage4.Location = new Point(4, 24);
-            tabPage4.Name = "tabPage4";
-            tabPage4.Size = new Size(976, 533);
-            tabPage4.TabIndex = 3;
-            tabPage4.Text = "Carts";
-            tabPage4.UseVisualStyleBackColor = true;
+            ordersTab2.Dock = DockStyle.Fill;
+            ordersTab2.Location = new Point(0, 0);
+            ordersTab2.Name = "ordersTab2";
+            ordersTab2.Size = new Size(192, 72);
+            ordersTab2.TabIndex = 0;
             // 
-            // tabPage5
+            // ExitSaving
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(984, 561);
-            tabControl1.TabIndex = 0;
+            ExitSaving.AutoSize = true;
+            ExitSaving.CheckAlign = ContentAlignment.MiddleRight;
+            ExitSaving.Location = new Point(8, 26);
+            ExitSaving.Name = "ExitSaving";
+            ExitSaving.Size = new Size(201, 19);
+            ExitSaving.TabIndex = 0;
+            ExitSaving.Text = "Сохранение данных при выходе";
+            ExitSaving.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -154,6 +160,7 @@
             tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
+            tabPage5.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -164,12 +171,12 @@
         private TabPage tabPage2;
         private Tabs.ItemsTabs itemsTabs1;
         private Tabs.CustomersTab customersTab1;
-        private TabPage tabPage1;
-        private Tabs.ItemsTabs itemsTabs1;
-        private Tabs.CustomersTab customersTab1;
+        private CheckBox ExitSaving;
         private TabPage tabPage4;
         private Tabs.CartsTab cartsTab1;
         private TabPage tabPage5;
         private Tabs.OrdersTab ordersTab1;
+        private Tabs.CartsTab cartsTab2;
+        private Tabs.OrdersTab ordersTab2;
     }
 }
