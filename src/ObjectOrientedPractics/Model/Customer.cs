@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using ObjectOrientedPractics.Services;
-using System.Net;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -39,7 +38,6 @@ namespace ObjectOrientedPractics.Model
         /// Является ли покупатель приоритетным.
         /// </summary>
         private bool _isPriority = false;
-
         #endregion
 
         /// <summary>
@@ -77,7 +75,9 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public Customer()
         {
-            _id = IdGenerator.GetNextCustomerId();
+            _id = IdGenerator.GetNextId();
+            Cart = new Cart();
+            Orders = new List<Order>();
         }
 
         #region Properties
@@ -107,7 +107,22 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Адрес.
         /// </summary>
-        public Address Address { get; set; }
+        public Address Address { get => _address; set => _address = value; }
+
+        /// <summary>
+        /// Корзина.
+        /// </summary>
+        public Cart Cart { get => _cart; set => _cart = value; }
+
+        /// <summary>
+        /// Список заказов.
+        /// </summary>
+        public List<Order> Orders { get => _orders; set => _orders = value; }
+
+        /// <summary>
+        /// Является ли покупатель приоритетным.
+        /// </summary>
+        public bool IsPriority { get => _isPriority; set => _isPriority = value; }
         #endregion
 
         /// <summary>

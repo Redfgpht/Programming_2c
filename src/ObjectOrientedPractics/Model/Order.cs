@@ -90,6 +90,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Статус заказа.
         /// </summary>
+        public OrderStatus OrderStatus { get => _orderStatus; set => _orderStatus = value; }
 
         /// <summary>
         /// Имя покупателя (для отображения)

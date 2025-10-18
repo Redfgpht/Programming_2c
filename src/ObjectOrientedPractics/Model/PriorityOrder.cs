@@ -38,7 +38,7 @@ namespace ObjectOrientedPractics.Model
         /// Конструктор для десериализации JSON.
         /// </summary>
         [JsonConstructor]
-        private PriorityOrder(int id, DateTime creationDate, Address address,List<Item> items, OrderStatus orderStatus,DateTime deliveryDate, string deliveryTime) 
+        private PriorityOrder(int id, DateTime creationDate, Address address, List<Item> items, OrderStatus orderStatus, DateTime deliveryDate, string deliveryTime)
                              : base(id, creationDate, address, items, orderStatus)
         {
             DeliveryDate = deliveryDate;
@@ -52,7 +52,7 @@ namespace ObjectOrientedPractics.Model
         public DateTime DeliveryDate
         {
             get => _deliveryDate;
-            set => _deliveryDate = value; 
+            set => _deliveryDate = value;
         }
 
         /// <summary>
