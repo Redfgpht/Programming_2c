@@ -143,12 +143,16 @@ namespace ObjectOrientedPractics.Services
         /// <param name="mainForm">Форма при закрытии которой будут сохраняться данные.</param>
         public static void EnableAutoSave(Form mainForm)
         {
+
+
+
+
             _autoSaveHandler = (s, e) =>
             {
                 if (AppData.IsExitSaving)
                 {
-                    SaveAllData();
                     MessageBox.Show("Данные успешно сохранены!", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SaveData(new { Items = AppData.Items, Customers = AppData.Customers, IsExitSaving = AppData.IsExitSaving });
                 }
             };
 

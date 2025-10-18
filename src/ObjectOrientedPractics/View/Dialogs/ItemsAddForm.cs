@@ -81,7 +81,7 @@ namespace ObjectOrientedPractics.View.Dialogs
         /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
-            AppData.Items.Add(new Item(NameTextBox.Text,DescriptionTextBox.Text,Convert.ToDouble(CostTextBox.Text),(Category)CategoryComboBox.SelectedIndex));
+            AppData.Items.Add(new Item(NameTextBox.Text, DescriptionTextBox.Text, Convert.ToDouble(CostTextBox.Text), (Category)CategoryComboBox.SelectedIndex));
             DialogResult = DialogResult.OK;
         }
     }

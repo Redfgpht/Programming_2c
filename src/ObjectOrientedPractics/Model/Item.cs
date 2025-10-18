@@ -39,7 +39,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="category">Категория предмета.</param>
         public Item(string name, string info, double cost, Category category)
         {
-            _id = IdGenerator.GetNextItemId();
+            _id = IdGenerator.GetNextId();
             Name = name;
             Information = info;
             Cost = cost;
@@ -69,7 +69,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public Item()
         {
-            _id = IdGenerator.GetNextItemId();
+            _id = IdGenerator.GetNextId();
         }
 
         #region Properties

@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Services;
+using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View
 {
@@ -8,13 +9,12 @@ namespace ObjectOrientedPractics.View
         {
             LoadData();
             InitializeComponent();
-            AppData.IsExitSaving = true;
             ProjectSerializer.EnableAutoSave(this);
         }
 
         private void LoadData()
         {
-            ProjectSerializer.LoadAllData();
+            ProjectSerializer.LoadData();
 
             if (AppData.Items.Count == 0)
             {
@@ -29,5 +29,19 @@ namespace ObjectOrientedPractics.View
             AppData.Customers.Add(CustomerFactory.CreateRandomCustomer());
         }
 
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            switch (tabControl1.SelectedIndex)
+            {
+                case 2:
+                    //cartsTab1.UpdateUI();
+                    break;
+                case 3:
+                    ordersTab1.UpdateOrdersList();
+                    break;
+
+            }
+        }
     }
 }
