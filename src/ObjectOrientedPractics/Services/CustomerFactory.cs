@@ -177,6 +177,42 @@ namespace ObjectOrientedPractics.Services
         /// <param name="building">Номер дома.</param>
         /// <param name="apartment">Номер квартиры.</param>
         /// <returns>Новый объект <see cref="Customer"/>.</returns>
-        public static Customer CreateCustomer(string fullName, string address) => new Customer(fullName, address);
+        public static Customer CreateCustomer(string fullName, int index, string country, string city, string street, string building, string apartment)
+        {
+            Address address = new Address(index, country, city, street, building, apartment);
+            return new Customer(fullName, address);
+        }
+
+        /// <summary>
+        /// Создает случайный заказ для указанного покупателя.
+        /// </summary>
+        /// <param name="customer">Покупатель.</param>
+        public static void CreateRandomOrder(Customer customer)
+        {
+            var itemsCount = _random.Next(1, 6);
+            var items = new List<Item>();
+
+            for (int i = 0; i < itemsCount; i++)
+            {
+                items.Add(AppData.Items[_random.Next(AppData.Items.Count)]);
+            }
+
+            var order = new Order(customer.Address, items)
+            {
+                OrderStatus = GetRandomOrderStatus()
+            };
+
+            customer.Orders.Add(order);
+        }
+
+        /// <summary>
+        /// Возвращает случайный статус заказа.
+        /// </summary>
+        /// <returns>Случайный статус заказа.</returns>
+        private static OrderStatus GetRandomOrderStatus()
+        {
+            var statuses = Enum.GetValues(typeof(OrderStatus));
+            return (OrderStatus)statuses.GetValue(_random.Next(statuses.Length));
+        }
     }
 }
