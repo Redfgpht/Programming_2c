@@ -29,5 +29,9 @@ namespace ObjectOrientedPractics.View
             AppData.Customers.Add(CustomerFactory.CreateRandomCustomer());
         }
 
+        private void itemsTabs1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -23,6 +23,21 @@ namespace ObjectOrientedPractics.Model
         /// Адрес.
         /// </summary>
         private Address _address;
+
+        /// <summary>
+        /// Корзина покупателя.
+        /// </summary>
+        private Cart _cart;
+
+        /// <summary>
+        /// Список заказов.
+        /// </summary>
+        private List<Order> _orders;
+
+        /// <summary>
+        /// Является ли покупатель приоритетным.
+        /// </summary>
+        private bool _isPriority = false;
         #endregion
 
         /// <summary>

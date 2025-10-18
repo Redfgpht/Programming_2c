@@ -7,7 +7,7 @@ namespace ObjectOrientedPractics.View.Tabs
     public partial class CustomersTab : UserControl
     {
         /// <summary>
-        /// Выбранный покупатель.
+        /// Конкретный покупатель
         /// </summary>
         private Customer _currentCustomer;
 
@@ -18,49 +18,49 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         /// <summary>
-        /// Обновление графического интерфейса.
+        /// Обновление данных
         /// </summary>
         private void UpdateUI()
         {
             CustomerListBox.Items.Clear();
             AppData.Customers.ForEach(x => CustomerListBox.Items.Add(x));
+
         }
 
         /// <summary>
-        /// Изменение данных в полях ввода.
+        /// Редактирование данных
         /// </summary>
         private void UpdateTextProperty(Customer item)
         {
             IdTextBox.Text = item.Id.ToString();
             FullNameTextBox.Text = item.FullName;
+            AddressTextBox.Text = item.Address;
         }
 
         /// <summary>
-        /// Очистка полей ввода.
+        /// Очистка введеных полей
         /// </summary>
         private void ClearTextProperty()
         {
             IdTextBox.Text = string.Empty;
             FullNameTextBox.Text = string.Empty;
+            AddressTextBox.Text = string.Empty;
         }
 
         /// <summary>
-        /// Выбор покупателя.
+        /// Выбор покупателя
         /// </summary>
         private void CustomerListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CustomerListBox.Items != null && CustomerListBox.SelectedItem != null)
             {
                 _currentCustomer = CustomerListBox.SelectedItem as Customer;
-                tableLayoutPanel5.Visible = true;
                 UpdateTextProperty(_currentCustomer);
-                addressControl1.Address = _currentCustomer.Address;
-
             }
         }
 
         /// <summary>
-        /// Изменение полного имени покупателя.
+        /// Переименование пользователя
         /// </summary>
         private void FullNameTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -76,7 +76,23 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         /// <summary>
-        /// Добавление нового покупателя.
+        /// Изменение адреса
+        /// </summary>
+        private void AddressTextBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                _currentCustomer.Address = AddressTextBox.Text;
+                AddressTextBox.BackColor = AppColors.BaseInput;
+            }
+            catch
+            {
+                AddressTextBox.BackColor = AppColors.ErrorInput;
+            }
+        }
+
+        /// <summary>
+        /// Добавление покупателя
         /// </summary>
         private void AddBtn_Click(object sender, EventArgs e)
         {
@@ -88,7 +104,7 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         /// <summary>
-        /// Удаление выбранного покупателя.
+        /// Удаление покупателя
         /// </summary>
         private void RemoveBtn_Click(object sender, EventArgs e)
         {
@@ -101,17 +117,13 @@ namespace ObjectOrientedPractics.View.Tabs
                     UpdateUI();
                     _currentCustomer = null;
                     FullNameTextBox.BackColor = AppColors.BaseInput;
-                    tableLayoutPanel5.Visible = false;
+                    AddressTextBox.BackColor = AppColors.BaseInput;
                 }
-            }
-            else
-            {
-                MessageBox.Show("Вы не можете выполнить данную операцию!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Запрет ввода данных.
+        /// Запрет на ввод данных
         /// </summary>
         private void InputData(object sender, KeyPressEventArgs e)
         {
@@ -119,7 +131,7 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         /// <summary>
-        /// Добавление случайного покупателя.
+        /// Добавление рандомного покупателя
         /// </summary>
         private void AddRandomBtn_Click(object sender, EventArgs e)
         {

@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.Services
 {
@@ -131,28 +132,13 @@ namespace ObjectOrientedPractics.Services
 
             string fullName = $"{lastName} {firstName} {middleName}";
 
-            // Создаем объект Address с использованием нового класса
             Address address = CreateRandomAddress();
-
-            return new Customer(fullName, address);
+            var Customer = new Customer(fullName, address);
+            CreateRandomOrder(Customer);
+            return Customer;
         }
 
-        /// <summary>
-        /// Создает случайный адрес.
-        /// </summary>
-        /// <returns>Новый объект <see cref="Address"/>.</returns>
-        private static Address CreateRandomAddress()
-        {
-            return new Address
-            {
-                Index = _random.Next(100000, 200000), // 6-значный индекс
-                Country = "Россия",
-                City = _cities[_random.Next(_cities.Length)],
-                Street = _streets[_random.Next(_streets.Length)],
-                Building = _random.Next(1, 200).ToString(),
-                Apartment = _random.Next(1, 300).ToString()
-            };
-        }
+            string address = $"г. {city}, ул. {street}, д. {building}, кв. {apartment}";
 
         /// <summary>
         /// Создает покупателя с указанными параметрами.
@@ -176,10 +162,6 @@ namespace ObjectOrientedPractics.Services
         /// <param name="building">Номер дома.</param>
         /// <param name="apartment">Номер квартиры.</param>
         /// <returns>Новый объект <see cref="Customer"/>.</returns>
-        public static Customer CreateCustomer(string fullName, int index, string country, string city, string street, string building, string apartment)
-        {
-            Address address = new Address(index, country, city, street, building, apartment);
-            return new Customer(fullName, address);
-        }
+        public static Customer CreateCustomer(string fullName, string address) => new Customer(fullName, address);
     }
 }
