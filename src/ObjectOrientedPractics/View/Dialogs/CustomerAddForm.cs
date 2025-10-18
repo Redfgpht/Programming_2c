@@ -33,9 +33,9 @@ namespace ObjectOrientedPractics.View.Dialogs
 
 
         /// <summary>
-        /// Добавление нового покупателя.
+        /// Изменение введённого адреса. 
         /// </summary>
-        private void button1_Click(object sender, EventArgs e)
+        private void AddressTextBox_TextChanged(object sender, EventArgs e)
         {
             if (addressControl1.Address.IsFullyFilled)
             {

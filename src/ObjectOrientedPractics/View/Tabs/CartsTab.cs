@@ -129,14 +129,13 @@ namespace ObjectOrientedPractics.View.Tabs
                 }
                 else
                 {
-                    _currentCustomer.Orders.Add(new Order(_currentCustomer.Address, _currentCustomer.Cart.Items));
+                _currentCustomer.Orders.Add(new Order(_currentCustomer.Address, _currentCustomer.Cart.Items));
                 }
                 _currentCustomer.Cart.Items.Clear();
                 UpdateCustomer();
             }
             else
             {
-                MessageBox.Show("Добавьте предметы в корзину для формирования заказа!","Предупреждение",MessageBoxButtons.OK,MessageBoxIcon.Warning);
             }
         }
     }

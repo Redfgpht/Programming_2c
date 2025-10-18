@@ -45,19 +45,6 @@
             // 
             // tabControl1
             // 
-
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabPage4);
-            tabControl1.Controls.Add(tabPage5);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(984, 561);
-            tabControl1.TabIndex = 0;
-            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
-
             tabPage2.Controls.Add(customersTab1);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
@@ -93,6 +80,7 @@
             itemsTabs1.Name = "itemsTabs1";
             itemsTabs1.Size = new Size(970, 527);
             itemsTabs1.TabIndex = 0;
+            itemsTabs1.Load += itemsTabs1_Load;
             // 
             // tabPage2
             // 
@@ -142,12 +130,14 @@
             // 
             // tabPage5
             // 
-            tabPage5.Location = new Point(4, 24);
-            tabPage5.Name = "tabPage5";
-            tabPage5.Size = new Size(976, 533);
-            tabPage5.TabIndex = 4;
-            tabPage5.Text = "Orders";
-            tabPage5.UseVisualStyleBackColor = true;
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Location = new Point(0, 0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(984, 561);
+            tabControl1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -176,6 +166,10 @@
         private Tabs.CustomersTab customersTab1;
         private TabPage tabPage1;
         private Tabs.ItemsTabs itemsTabs1;
-        private TabControl tabControl1;
+        private Tabs.CustomersTab customersTab1;
+        private TabPage tabPage4;
+        private Tabs.CartsTab cartsTab1;
+        private TabPage tabPage5;
+        private Tabs.OrdersTab ordersTab1;
     }
 }

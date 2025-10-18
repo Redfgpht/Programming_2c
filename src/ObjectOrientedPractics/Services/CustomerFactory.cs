@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.Services
 {
@@ -131,10 +132,10 @@ namespace ObjectOrientedPractics.Services
 
             string fullName = $"{lastName} {firstName} {middleName}";
 
-            // Создаем объект Address с использованием нового класса
             Address address = CreateRandomAddress();
-
-            return new Customer(fullName, address);
+            var Customer = new Customer(fullName, address);
+            CreateRandomOrder(Customer);
+            return Customer;
         }
 
         /// <summary>
