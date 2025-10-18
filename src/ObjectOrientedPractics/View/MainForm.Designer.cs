@@ -78,7 +78,6 @@
             itemsTabs1.Name = "itemsTabs1";
             itemsTabs1.Size = new Size(970, 527);
             itemsTabs1.TabIndex = 0;
-            itemsTabs1.Load += itemsTabs1_Load;
             // 
             // tabControl1
             // 
@@ -90,15 +89,6 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Customers";
             tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // customersTab1
-            // 
-            customersTab1.Dock = DockStyle.Fill;
-            customersTab1.Location = new Point(3, 3);
-            customersTab1.Name = "customersTab1";
-            customersTab1.Size = new Size(970, 527);
-            customersTab1.TabIndex = 0;
-            // 
             // tabPage4
             // 
             tabPage4.Location = new Point(4, 24);
@@ -136,10 +126,9 @@
 
         #endregion
 
-        private TabPage tabPage2;
-        private Tabs.CustomersTab customersTab1;
+        private TabControl tabControl1;
         private TabPage tabPage1;
-        private Tabs.ItemsTabs itemsTabs1;
+        private TabPage tabPage2;
         private Tabs.CustomersTab customersTab1;
         private TabPage tabPage4;
         private Tabs.CartsTab cartsTab1;
