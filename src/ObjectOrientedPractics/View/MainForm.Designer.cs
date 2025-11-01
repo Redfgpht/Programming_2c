@@ -121,7 +121,7 @@
             tabPage5.Controls.Add(ordersTab2);
             tabPage5.Location = new Point(4, 24);
             tabPage5.Name = "tabPage5";
-            tabPage5.Size = new Size(192, 72);
+            tabPage5.Size = new Size(976, 533);
             tabPage5.TabIndex = 4;
             tabPage5.Text = "Orders";
             tabPage5.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@
             ordersTab2.Dock = DockStyle.Fill;
             ordersTab2.Location = new Point(0, 0);
             ordersTab2.Name = "ordersTab2";
-            ordersTab2.Size = new Size(192, 72);
+            ordersTab2.Size = new Size(976, 533);
             ordersTab2.TabIndex = 0;
             // 
             // ExitSaving
@@ -175,7 +175,6 @@
         private TabPage tabPage4;
         private Tabs.CartsTab cartsTab1;
         private TabPage tabPage5;
-        private Tabs.OrdersTab ordersTab1;
         private Tabs.CartsTab cartsTab2;
         private Tabs.OrdersTab ordersTab2;
     }

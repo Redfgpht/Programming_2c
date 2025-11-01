@@ -360,7 +360,7 @@
             PriorityOrderCheckBox.Name = "PriorityOrderCheckBox";
             PriorityOrderCheckBox.Size = new Size(212, 21);
             PriorityOrderCheckBox.TabIndex = 5;
-            PriorityOrderCheckBox.Text = "Show Only Priority Orders";
+            PriorityOrderCheckBox.Text = "Смотреть только приорететные заказы";
             PriorityOrderCheckBox.UseVisualStyleBackColor = true;
             PriorityOrderCheckBox.CheckedChanged += PriorityOrderCheckBox_CheckedChanged;
             // 

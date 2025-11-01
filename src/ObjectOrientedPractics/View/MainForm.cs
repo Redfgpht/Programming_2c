@@ -39,7 +39,7 @@ namespace ObjectOrientedPractics.View
                     //cartsTab1.UpdateUI();
                     break;
                 case 3:
-                    //ordersTab1.UpdateOrdersList();
+                    ordersTab2.UpdateOrdersList(false);
                     break;
 
             }
