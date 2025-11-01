@@ -1,4 +1,6 @@
-﻿namespace ObjectOrientedPractics.View
+﻿using System.Windows.Forms;
+
+namespace ObjectOrientedPractics.View
 {
     partial class MainForm
     {
@@ -39,6 +41,7 @@
             tabPage5 = new TabPage();
             ordersTab2 = new ObjectOrientedPractics.View.Tabs.OrdersTab();
             ExitSaving = new CheckBox();
+            tabPage6 = new TabPage();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -52,6 +55,7 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage5);
+            tabControl1.Controls.Add(tabPage6);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
@@ -107,6 +111,15 @@
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Carts";
             tabPage4.UseVisualStyleBackColor = true;
+            //
+            // tabPage6
+            //
+            tabPage6.Location = new Point(4, 24);
+            tabPage6.Name = "tabPage6";
+            tabPage6.Size = new Size(976, 533);
+            tabPage6.TabIndex = 5;
+            tabPage6.Text = "tabPage6";
+            tabPage6.UseVisualStyleBackColor = true;
             // 
             // cartsTab2
             // 
@@ -177,5 +190,7 @@
         private TabPage tabPage5;
         private Tabs.CartsTab cartsTab2;
         private Tabs.OrdersTab ordersTab2;
+        private TabPage tabPage6;
+        private Tabs.DiscountsTab discountsTab1;
     }
 }
