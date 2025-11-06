@@ -40,7 +40,6 @@ namespace ObjectOrientedPractics.View
             cartsTab2 = new ObjectOrientedPractics.View.Tabs.CartsTab();
             tabPage5 = new TabPage();
             ordersTab2 = new ObjectOrientedPractics.View.Tabs.OrdersTab();
-            tabPage3 = new TabPage();
             ExitSaving = new CheckBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -55,7 +54,6 @@ namespace ObjectOrientedPractics.View
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage5);
-            tabControl1.Controls.Add(tabPage3);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
@@ -138,15 +136,6 @@ namespace ObjectOrientedPractics.View
             ordersTab2.Size = new Size(976, 533);
             ordersTab2.TabIndex = 0;
             // 
-            // tabPage3
-            // 
-            tabPage3.Location = new Point(4, 24);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(976, 533);
-            tabPage3.TabIndex = 5;
-            tabPage3.Text = "Discount";
-            tabPage3.UseVisualStyleBackColor = true;
-            // 
             // ExitSaving
             // 
             ExitSaving.AutoSize = true;
@@ -191,6 +180,5 @@ namespace ObjectOrientedPractics.View
         private Tabs.CartsTab cartsTab2;
         private Tabs.OrdersTab ordersTab2;
         private Tabs.DiscountsTab discountsTab1;
-        private TabPage tabPage3;
     }
 }

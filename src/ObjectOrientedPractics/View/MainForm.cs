@@ -1,5 +1,6 @@
 ﻿using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Services;
+using ObjectOrientedPractics.Model.Enums;
 using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View
