@@ -1,5 +1,6 @@
 ﻿using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Services;
+using ObjectOrientedPractics.Model.Enums;
 using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View
@@ -36,7 +37,7 @@ namespace ObjectOrientedPractics.View
             switch (tabControl1.SelectedIndex)
             {
                 case 2:
-                    //cartsTab1.UpdateUI();
+                    cartsTab2.UpdateUI();
                     break;
                 case 3:
                     ordersTab2.UpdateOrdersList(false);
