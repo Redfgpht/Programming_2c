@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
+using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.Services;
 using ValueValidator = ObjectOrientedPractics.Services.ValueValidator;
 
 namespace ObjectOrientedPractics.Model
 {
     [Serializable]
-    public class Item
+    public class Item: ICloneable, IEquatable<Item>, IComparable<Item>
     {
         #region Fields
         /// <summary>
@@ -35,12 +36,14 @@ namespace ObjectOrientedPractics.Model
         /// <param name="name">Название предмета.</param>
         /// <param name="info">Информация о предмете.</param>
         /// <param name="cost">Стоимость предмета.</param>
-        public Item(string name, string info, double cost)
+        /// <param name="category">Категория предмета.</param>
+        public Item(string name, string info, double cost, Category category)
         {
             _id = IdGenerator.GetNextId();
             Name = name;
             Information = info;
             Cost = cost;
+            Category = category;
         }
 
         /// <summary>
@@ -50,13 +53,15 @@ namespace ObjectOrientedPractics.Model
         /// <param name="name">Название предмета.</param>
         /// <param name="info">Информация о предмете.</param>
         /// <param name="cost">Стоимость предмета.</param>
+        /// <param name="category">Категория предмета.</param>
         [JsonConstructor]
-        private Item(int id, string name, string info, double cost)
+        private Item(int id, string name, string info, double cost, Category category)
         {
             _id = id;
             _name = name;
             _info = info;
             _cost = cost;
+            Category = category;
         }
 
         /// <summary>
@@ -126,12 +131,68 @@ namespace ObjectOrientedPractics.Model
                 }
             }
         }
+
+        /// <summary>
+        /// Категория товара.
+        /// </summary>
+        public Category Category { get; set; }
         #endregion
+
+        /// <summary>
+        /// Создает копию объекта <see cref="Item"/>.
+        /// </summary>
+        public object Clone()
+        {
+            return new Item(_name, _info, _cost, Category);
+        }
+
+        /// <summary>
+        /// Определяет, равен ли указанный объект текущему объекту.
+        /// </summary>
+        /// <param name="other">Объект для сравнения с текущим объектом.</param>
+        public bool Equals(Item other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return _id == other._id && _name == other._name && _info == other._info &&
+                   _cost == other._cost && Category == other.Category;
+        }
+
+        /// <summary>
+        /// Определяет, равен ли указанный объект текущему объекту.
+        /// </summary>
+        /// <param name="obj">Объект для сравнения с текущим объектом.</param>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Item);
+        }
+
+        /// <summary>
+        /// Сравнивает текущий объект с другим объектом <see cref="Item"/> по стоимости.
+        /// </summary>
+        /// <param name="other">Объект для сравнения с текущим объектом.</param>
+        public int CompareTo(Item other)
+        {
+            if (other is null)
+            {
+                return 1;
+            }
+
+            return _cost.CompareTo(other._cost);
+        }
 
         /// <summary>
         /// Метод переопределения ToString().
         /// </summary>
         /// <returns>Строку с информацией об предмете.</returns>
-        public override string ToString() => $"{Id}| {Name}";
+        public override string ToString() => $"{Name}";
     }
 }

@@ -6,7 +6,7 @@
     public static class IdGenerator
     {
         /// <summary>
-        /// Получение следующего айдишника
+        /// Получение следующего идентификатора.
         /// </summary>
         /// <returns>Id</returns>
         public static int GetNextId()
@@ -24,6 +24,24 @@
             }
 
             return ++maxId;
+        }
+
+        /// <summary>
+        /// Получение следующего идентификатора для предметов.
+        /// </summary>
+        /// <returns>Id для нового предмета</returns>
+        public static int GetNextItemId()
+        {
+            return (AppData.Items?.Max(x => x.Id) ?? 0) + 1;
+        }
+
+        /// <summary>
+        /// Получение следующего идентификатора для пользователей.
+        /// </summary>
+        /// <returns>Id для нового пользователя</returns>
+        public static int GetNextCustomerId()
+        {
+            return (AppData.Customers?.Max(x => x.Id) ?? 0) + 1;
         }
     }
 }

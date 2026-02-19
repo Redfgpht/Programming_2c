@@ -1,9 +1,10 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.Services
 {
     /// <summary>
-    /// Место создания объектов класса <see cref="Item"/>.
+    /// Фабрика для создания объектов класса <see cref="Item"/>.
     /// </summary>
     public static class ItemFactory
     {
@@ -134,7 +135,7 @@ namespace ObjectOrientedPractics.Services
         };
 
         /// <summary>
-        /// Создает новый экземпляр <see cref="Item"/> со случайными значениями
+        /// Создает новый экземпляр <see cref="Item"/> со случайными значениями.
         /// </summary>
         /// <returns>Новый объект <see cref="Item"/>.</returns>
         public static Item CreateRandomItem()
@@ -143,16 +144,17 @@ namespace ObjectOrientedPractics.Services
             string info = _itemDescriptions[_random.Next(_itemDescriptions.Length)];
             double cost = Math.Round(_random.NextDouble() * 1000 + 100, 2); // от 100 до 1100
 
-            return new Item(name, info, cost);
+            return new Item(name, info, cost, (Category)_random.Next(0,10));
         }
 
         /// <summary>
-        /// Создает экземпляр <see cref="Item"/> с указанными параметрами
+        /// Создает экземпляр <see cref="Item"/> с указанными параметрами.
         /// </summary>
         /// <param name="name">Название предмета.</param>
         /// <param name="info">Информация о предмете.</param>
         /// <param name="cost">Стоимость предмета.</param>
+        /// <param name="category">Категория предмета.</param>
         /// <returns>Новый объект <see cref="Item"/>.</returns>
-        public static Item CreateItem(string name, string info, double cost) => new Item(name, info, cost);
+        public static Item CreateItem(string name, string info, double cost, Category category) => new Item(name, info, cost, category);
     }
 }

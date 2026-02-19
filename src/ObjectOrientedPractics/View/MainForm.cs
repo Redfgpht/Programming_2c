@@ -1,4 +1,7 @@
-﻿using ObjectOrientedPractics.Services;
+﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Services;
+using ObjectOrientedPractics.Model.Enums;
+using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View
 {
@@ -8,6 +11,7 @@ namespace ObjectOrientedPractics.View
         {
             LoadData();
             InitializeComponent();
+            ProjectSerializer.EnableAutoSave(this);
         }
 
         private void LoadData()
@@ -27,9 +31,19 @@ namespace ObjectOrientedPractics.View
             AppData.Customers.Add(CustomerFactory.CreateRandomCustomer());
         }
 
-        private void itemsTabs1_Load(object sender, EventArgs e)
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+            switch (tabControl1.SelectedIndex)
+            {
+                case 2:
+                    cartsTab2.UpdateUI();
+                    break;
+                case 3:
+                    ordersTab2.UpdateOrdersList(false);
+                    break;
+
+            }
         }
     }
 }
