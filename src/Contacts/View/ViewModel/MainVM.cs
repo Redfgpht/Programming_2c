@@ -1,4 +1,6 @@
-﻿using View.Model;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using View.Model;
 using View.Model.Services;
 using System.Windows.Input;
 
@@ -7,7 +9,7 @@ namespace View.ViewModel
     /// <summary>
     /// ViewModel для главного окна.
     /// </summary>
-    public class MainVM : ViewModelBase
+    public class MainVM : INotifyPropertyChanged
     {
         /// <summary>
         /// Текущий контакт.
@@ -16,7 +18,14 @@ namespace View.ViewModel
 
         private readonly ContactSerializer _serializer;
 
+        /// <summary>
+        /// Команда сохранения контакта.
+        /// </summary>
         public ICommand SaveCommand { get; }
+
+        /// <summary>
+        /// Команда загрузки контакта.
+        /// </summary>
         public ICommand LoadCommand { get; }
 
         /// <summary>
@@ -27,11 +36,9 @@ namespace View.ViewModel
             _currentContact = new Contact();
             _serializer = new ContactSerializer();
 
-            SaveCommand = new RelayCommand(SaveContact);
-            LoadCommand = new RelayCommand(LoadContact);
+            SaveCommand = new SaveCommand(this);
+            LoadCommand = new LoadCommand(this);
         }
-
-        // Добавьте методы в класс MainVM:
 
         /// <summary>
         /// Сохраняет текущий контакт в файл.
@@ -117,6 +124,34 @@ namespace View.ViewModel
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(PhoneNumber));
             OnPropertyChanged(nameof(Email));
+        }
+
+        /// <summary>
+        /// Очищает все поля контакта.
+        /// </summary>
+        public void ClearContact()
+        {
+            _currentContact.Name = string.Empty;
+            _currentContact.PhoneNumber = string.Empty;
+            _currentContact.Email = string.Empty;
+
+            // Уведомляем об изменении всех свойств
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(PhoneNumber));
+            OnPropertyChanged(nameof(Email));
+        }
+
+        /// <summary>
+        /// Создание события PropertyChanged.
+        /// </summary>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        /// Вызывает событие PropertyChanged.
+        /// </summary>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -23,8 +23,6 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
-
-            // Устанавливаем DataContext для привязки данных
             DataContext = new MainVM();
         }
     }

@@ -1,43 +1,36 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
+using Newtonsoft.Json;
+using View.Model;
 
 namespace View.Model.Services
 {
     /// <summary>
-    /// Класс для сериализации и десериализации контактов в JSON.
+    /// Предоставляет методы для сериализации и десериализации контактов.
     /// </summary>
     public class ContactSerializer
     {
         /// <summary>
-        /// Путь к папке с файлами контактов.
+        /// Путь к файлу для сохранения контакта.
         /// </summary>
-        private readonly string _folderPath;
+        private readonly string _filePath;
 
         /// <summary>
-        /// Имя файла для сохранения контакта.
-        /// </summary>
-        private const string FileName = "contacts.json";
-
-        /// <summary>
-        /// Конструктор по умолчанию. Устанавливает путь в папку "Мои документы\Contacts".
+        /// Инициализирует новый экземпляр класса ContactSerializer.
         /// </summary>
         public ContactSerializer()
         {
             string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            _folderPath = Path.Combine(documentsPath, "Contacts");
+            string contactsDirectory = Path.Combine(documentsPath, "Contacts");
 
-            // Создаем папку, если её нет
-            if (!Directory.Exists(_folderPath))
+            // Создаем директорию, если она не существует
+            if (!Directory.Exists(contactsDirectory))
             {
-                Directory.CreateDirectory(_folderPath);
+                Directory.CreateDirectory(contactsDirectory);
             }
-        }
 
-        /// <summary>
-        /// Полный путь к файлу.
-        /// </summary>
-        private string FilePath => Path.Combine(_folderPath, FileName);
+            _filePath = Path.Combine(contactsDirectory, "contacts.json");
+        }
 
         /// <summary>
         /// Сохраняет контакт в файл.
@@ -45,8 +38,15 @@ namespace View.Model.Services
         /// <param name="contact">Контакт для сохранения.</param>
         public void SaveContact(Contact contact)
         {
-            string json = JsonConvert.SerializeObject(contact, Formatting.Indented);
-            File.WriteAllText(FilePath, json);
+            try
+            {
+                string json = JsonConvert.SerializeObject(contact, Formatting.Indented);
+                File.WriteAllText(_filePath, json);
+            }
+            catch (Exception)
+            {
+                // Игнорируем ошибки
+            }
         }
 
         /// <summary>
@@ -55,10 +55,17 @@ namespace View.Model.Services
         /// <returns>Загруженный контакт или новый контакт, если файл не найден.</returns>
         public Contact LoadContact()
         {
-            if (File.Exists(FilePath))
+            try
             {
-                string json = File.ReadAllText(FilePath);
-                return JsonConvert.DeserializeObject<Contact>(json) ?? new Contact();
+                if (File.Exists(_filePath))
+                {
+                    string json = File.ReadAllText(_filePath);
+                    return JsonConvert.DeserializeObject<Contact>(json) ?? new Contact();
+                }
+            }
+            catch (Exception)
+            {
+                // Игнорируем ошибки
             }
 
             return new Contact();
