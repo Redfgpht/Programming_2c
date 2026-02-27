@@ -23,13 +23,22 @@ namespace View.ViewModel
             _serializer = new ContactSerializer();
         }
 
+        /// <summary>
+        /// Создание события CanExecuteChanged.
+        /// </summary>
         public event EventHandler? CanExecuteChanged;
 
+        /// <summary>
+        /// Определяет, может ли команда выполняться в текущем состоянии.
+        /// </summary>
         public bool CanExecute(object? parameter)
         {
             return true;
         }
 
+        /// <summary>
+        /// Выполняет логику команды загрузки контакта.
+        /// </summary>
         public void Execute(object? parameter)
         {
             Contact loadedContact = _serializer.LoadContact();
