@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:converters="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
         mc:Ignorable="d"
         Title="Контакты" 
         Height="550" 
@@ -175,6 +174,7 @@
                             Height="25"
                             Margin="0,0,5,0"
                             Command="{Binding ApplyCommand}"
+                            IsEnabled="{Binding IsApplyEnabled}"
                             Visibility="{Binding IsApplyVisible, Converter={StaticResource BoolToVisConverter}}"/>
                     <Button Content="Cancel" 
                             Width="75" 
