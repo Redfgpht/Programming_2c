@@ -1,48 +1,96 @@
-﻿using System;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace View.Model
 {
     /// <summary>
-    /// Класс, представляющий контакт с именем, номером телефона и email.
+    /// Представляет контакт с именем, телефоном и email.
     /// </summary>
-    public class Contact
+    public class Contact : INotifyPropertyChanged
     {
+        private string _name;
+        private string _phoneNumber;
+        private string _email;
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса Contact с пустыми значениями.
+        /// </summary>
+        public Contact()
+        {
+            _name = string.Empty;
+            _phoneNumber = string.Empty;
+            _email = string.Empty;
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса Contact с указанными значениями.
+        /// </summary>
+        /// <param name="name">Имя контакта.</param>
+        /// <param name="phoneNumber">Номер телефона.</param>
+        /// <param name="email">Email адрес.</param>
+        public Contact(string name, string phoneNumber, string email)
+        {
+            _name = name ?? string.Empty;
+            _phoneNumber = phoneNumber ?? string.Empty;
+            _email = email ?? string.Empty;
+        }
+
         /// <summary>
         /// Имя контакта.
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Номер телефона контакта.
         /// </summary>
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+            set
+            {
+                if (_phoneNumber != value)
+                {
+                    _phoneNumber = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Email контакта.
         /// </summary>
-        public string Email { get; set; }
-
-        /// <summary>
-        /// Конструктор по умолчанию.
-        /// </summary>
-        public Contact()
+        public string Email
         {
-            Name = string.Empty;
-            PhoneNumber = string.Empty;
-            Email = string.Empty;
+            get => _email;
+            set
+            {
+                if (_email != value)
+                {
+                    _email = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         /// <summary>
-        /// Конструктор с параметрами.
+        /// Вызывает событие PropertyChanged.
         /// </summary>
-        /// <param name="name">Имя контакта.</param>
-        /// <param name="phoneNumber">Номер телефона.</param>
-        /// <param name="email">Email.</param>
-        public Contact(string name, string phoneNumber, string email)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            Name = name;
-            PhoneNumber = phoneNumber;
-            Email = email;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

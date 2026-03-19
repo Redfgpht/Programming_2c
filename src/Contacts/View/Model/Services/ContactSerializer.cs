@@ -1,18 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Windows;
+using Newtonsoft.Json;
 using View.Model;
 
 namespace View.Model.Services
 {
     /// <summary>
-    /// Предоставляет методы для сериализации и десериализации контактов.
+    /// Предоставляет методы для сериализации и десериализации коллекции контактов.
     /// </summary>
     public class ContactSerializer
     {
         /// <summary>
-        /// Путь к файлу для сохранения контакта.
+        /// Путь к файлу для сохранения контактов.
         /// </summary>
         private readonly string _filePath;
 
@@ -34,14 +34,14 @@ namespace View.Model.Services
         }
 
         /// <summary>
-        /// Сохраняет контакт в файл.
+        /// Сохраняет коллекцию контактов в файл.
         /// </summary>
-        /// <param name="contact">Контакт для сохранения.</param>
-        public void SaveContact(Contact contact)
+        /// <param name="contacts">Коллекция контактов для сохранения.</param>
+        public void SaveContacts(IEnumerable<Contact> contacts)
         {
             try
             {
-                string json = JsonConvert.SerializeObject(contact, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(contacts, Formatting.Indented);
                 File.WriteAllText(_filePath, json);
             }
             catch (Exception)
@@ -51,17 +51,17 @@ namespace View.Model.Services
         }
 
         /// <summary>
-        /// Загружает контакт из файла.
+        /// Загружает коллекцию контактов из файла.
         /// </summary>
-        /// <returns>Загруженный контакт или новый контакт, если файл не найден.</returns>
-        public Contact LoadContact()
+        /// <returns>Загруженная коллекция контактов или пустая коллекция, если файл не найден.</returns>
+        public List<Contact> LoadContacts()
         {
             try
             {
                 if (File.Exists(_filePath))
                 {
                     string json = File.ReadAllText(_filePath);
-                    return JsonConvert.DeserializeObject<Contact>(json) ?? new Contact();
+                    return JsonConvert.DeserializeObject<List<Contact>>(json) ?? new List<Contact>();
                 }
             }
             catch (Exception)
@@ -69,7 +69,7 @@ namespace View.Model.Services
                 // Игнорируем ошибки
             }
 
-            return new Contact();
+            return new List<Contact>();
         }
     }
 }
