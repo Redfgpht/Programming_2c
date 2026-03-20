@@ -4,6 +4,7 @@
 		<TargetFramework>net9.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,5 +14,10 @@
 
 	<ItemGroup>
 	  <Page Include="App.xaml" />
+		<ApplicationIcon Include="Icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Icon.ico" />
 	</ItemGroup>
 </Project>

@@ -44,6 +44,9 @@ namespace View.ViewModel
             RemoveCommand = new RelayCommand(RemoveContact, CanRemove);
             ApplyCommand = new RelayCommand(ApplyChanges, CanApply);
             CancelCommand = new RelayCommand(CancelEditing, CanCancel);
+
+            // Обновляем команды при запуске
+            CommandManager.InvalidateRequerySuggested();
         }
 
         /// <summary>
@@ -78,17 +81,18 @@ namespace View.ViewModel
                     _selectedContact = value;
                     OnPropertyChanged();
 
-                    // Обновляем текущий контакт для отображения
                     OnPropertyChanged(nameof(CurrentContact));
 
                     // Обновляем состояние команд
-                    CommandManager.InvalidateRequerySuggested();
+                    (EditCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                    (RemoveCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                    (AddCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 }
             }
         }
 
         /// <summary>
-        /// Текущий отображаемый контакт (возвращает EditingContact в режиме редактирования, иначе SelectedContact)
+        /// Текущий отображаемый контакт.
         /// </summary>
         public Contact? CurrentContact
         {
@@ -137,7 +141,6 @@ namespace View.ViewModel
         /// </summary>
         private void EditingContact_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            // При изменении любого поля обновляем доступность кнопки Apply
             OnPropertyChanged(nameof(IsApplyEnabled));
             (ApplyCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
@@ -207,12 +210,12 @@ namespace View.ViewModel
         public bool IsNotEditingOrAdding => !(_isEditing || _isAdding);
 
         /// <summary>
-        /// Режим редактирования (поля доступны для ввода).
+        /// Режим редактирования.
         /// </summary>
         public bool IsEditingMode => _isEditing || _isAdding;
 
         /// <summary>
-        /// Режим просмотра (поля только для чтения).
+        /// Режим просмотра.
         /// </summary>
         public bool IsViewMode => !(_isEditing || _isAdding);
 
@@ -232,12 +235,13 @@ namespace View.ViewModel
                 if (_isEditing)
                     return true;
 
-                // Если режим добавления - проверяем заполненность полей
+                // Если режим добавления - проверяем заполненность полей и отсутствие ошибок
                 if (_isAdding && _editingContact != null)
                 {
                     return !string.IsNullOrWhiteSpace(_editingContact.Name) &&
                            !string.IsNullOrWhiteSpace(_editingContact.PhoneNumber) &&
-                           !string.IsNullOrWhiteSpace(_editingContact.Email);
+                           !string.IsNullOrWhiteSpace(_editingContact.Email) &&
+                           !_editingContact.HasErrors;
                 }
 
                 return false;
@@ -252,11 +256,10 @@ namespace View.ViewModel
         public ICommand CancelCommand { get; }
 
         /// <summary>
-        /// Обработчик изменения свойств контакта
+        /// Обработчик изменения свойств контакта.
         /// </summary>
         private void Contact_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            // При изменении любого контакта сохраняем данные
             _serializer.SaveContacts(_contacts);
         }
 
@@ -288,7 +291,8 @@ namespace View.ViewModel
                 {
                     Name = _selectedContact.Name,
                     PhoneNumber = _selectedContact.PhoneNumber,
-                    Email = _selectedContact.Email
+                    Email = _selectedContact.Email,
+                    PhotoPath = _selectedContact.PhotoPath
                 };
                 IsEditing = true;
 
@@ -328,7 +332,6 @@ namespace View.ViewModel
                     SelectedContact = null;
                 }
 
-                // Сохраняем изменения
                 _serializer.SaveContacts(_contacts);
 
                 // Обновляем команды
@@ -356,10 +359,10 @@ namespace View.ViewModel
                 return;
             }
 
-            // Для режима добавления проверяем заполненность полей
-            if (_isAdding && !IsContactValid(_editingContact))
+            // Для режима добавления проверяем заполненность полей и отсутствие ошибок
+            if (_isAdding && (!IsContactValid(_editingContact) || _editingContact.HasErrors))
             {
-                return; // Не применяем изменения, если поля не заполнены
+                return;
             }
 
             if (_isAdding)
@@ -367,7 +370,6 @@ namespace View.ViewModel
                 // Подписываемся на изменения нового контакта
                 _editingContact.PropertyChanged += Contact_PropertyChanged;
 
-                // Добавляем новый контакт
                 _contacts.Add(_editingContact);
                 SelectedContact = _editingContact;
             }
@@ -376,16 +378,15 @@ namespace View.ViewModel
                 // Отписываемся от старого контакта перед изменением
                 _selectedContact.PropertyChanged -= Contact_PropertyChanged;
 
-                // Обновляем существующий контакт
                 _selectedContact.Name = _editingContact.Name;
                 _selectedContact.PhoneNumber = _editingContact.PhoneNumber;
                 _selectedContact.Email = _editingContact.Email;
+                _selectedContact.PhotoPath = _editingContact.PhotoPath;
 
                 // Подписываемся снова
                 _selectedContact.PropertyChanged += Contact_PropertyChanged;
             }
 
-            // Сохраняем изменения
             _serializer.SaveContacts(_contacts);
 
             // Выходим из режима редактирования
@@ -414,7 +415,7 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Проверяет, можно ли добавить контакт.
+        /// Проверяет, можно ли добавить/редактировать контакт.
         /// </summary>
         private bool CanAddOrEdit(object? parameter)
         {
@@ -426,7 +427,10 @@ namespace View.ViewModel
         /// </summary>
         private bool CanEdit(object? parameter)
         {
-            return !_isEditing && !_isAdding && _selectedContact != null;
+            bool canEdit = !_isEditing && !_isAdding && _selectedContact != null;
+            System.Diagnostics.Debug.WriteLine($"CanEdit: {canEdit}, IsEditing={_isEditing}, " +
+                $"IsAdding={_isAdding}, SelectedContact={_selectedContact != null}");
+            return canEdit;
         }
 
         /// <summary>
@@ -434,7 +438,10 @@ namespace View.ViewModel
         /// </summary>
         private bool CanRemove(object? parameter)
         {
-            return !_isEditing && !_isAdding && _selectedContact != null;
+            bool canRemove = !_isEditing && !_isAdding && _selectedContact != null;
+            System.Diagnostics.Debug.WriteLine($"CanRemove: {canRemove}, IsEditing={_isEditing}, " +
+                $"IsAdding={_isAdding}, SelectedContact={_selectedContact != null}");
+            return canRemove;
         }
 
         /// <summary>
