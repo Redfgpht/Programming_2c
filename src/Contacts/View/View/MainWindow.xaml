@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:View.Controls"
         mc:Ignorable="d"
         Title="Контакты" 
         Height="550" 
@@ -11,6 +12,40 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+
+        <!-- DataTemplate -->
+        <DataTemplate x:Key="ContactTemplate">
+            <Grid Margin="5,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                    <!-- Фото контакта (иконка-заглушка) -->
+                    <Border Grid.Column="0" 
+                            Width="32" 
+                            Height="32" 
+                            Background="#CCCCCC" 
+                            CornerRadius="16"
+                            HorizontalAlignment="Left"
+                            Margin="0,0,8,0">
+                        <TextBlock Text="👤" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="16"/>
+                    </Border>
+
+                    <!-- Информация о контакте -->
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="{Binding Name}" 
+                                   FontWeight="Bold" 
+                                   FontSize="14"/>
+                        <TextBlock Text="{Binding PhoneNumber}" 
+                                   FontSize="12" 
+                                   Foreground="#666666"/>
+                    </StackPanel>
+                </Grid>
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -28,40 +63,35 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Список контактов -->
+                <!-- Список контактов с DataTemplate -->
                 <ListBox Grid.Row="0" 
                          ItemsSource="{Binding Contacts}"
                          SelectedItem="{Binding SelectedContact, UpdateSourceTrigger=PropertyChanged}"
+                         ItemTemplate="{StaticResource ContactTemplate}"
                          Background="Transparent"
                          BorderThickness="0"
-                         Margin="0,0,0,3">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" Margin="3"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                         Margin="0,0,0,3"/>
 
                 <!-- Кнопки управления -->
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,3,0,0">
-                    <Button Content="Add" 
-                            Height="25" 
-                            Width="60"
-                            Margin="0,0,3,0"
-                            Command="{Binding AddCommand}"
-                            Padding="5,0"/>
-                    <Button Content="Edit" 
-                            Height="25" 
-                            Width="60"
-                            Margin="3,0,3,0"
-                            Command="{Binding EditCommand}"
-                            Padding="5,0"/>
-                    <Button Content="Remove" 
-                            Height="25" 
-                            Width="60"
-                            Margin="3,0,0,0"
-                            Command="{Binding RemoveCommand}"
-                            Padding="5,0"/>
+                    <Button Content="Добавить" 
+                        Height="25" 
+                        Width="70"
+                        Margin="0,0,3,0"
+                        Command="{Binding AddCommand}"
+                        Padding="5,0"/>
+                    <Button Content="Изменить" 
+                        Height="25" 
+                        Width="70"
+                        Margin="8,0,3,0"
+                        Command="{Binding EditCommand}"
+                        Padding="5,0"/>
+                    <Button Content="Удалить" 
+                        Height="25" 
+                        Width="70"
+                        Margin="8,0,0,0"
+                        Command="{Binding RemoveCommand}"
+                        Padding="5,0"/>
                 </StackPanel>
             </Grid>
         </Grid>
@@ -73,95 +103,14 @@
                       VerticalAlignment="Stretch"
                       Background="White"/>
 
-        <!-- Правая панель: просмотр и редактирование контакта -->
         <Grid Grid.Column="2" Background="White">
             <Grid Margin="15">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Данные контакта -->
-                <StackPanel Grid.Row="1" Margin="0,0,0,50">
-                    <!-- Фото placeholder -->
-                    <Border Width="100" 
-                            Height="100" 
-                            BorderBrush="Gray" 
-                            BorderThickness="1" 
-                            HorizontalAlignment="Left"
-                            Margin="0,0,0,10">
-                        <TextBlock Text="Фото" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-
-                    <!-- Поле Name -->
-                    <TextBlock Text="Имя:" Margin="0,0,0,3"/>
-
-                    <!-- Поле для ввода/отображения имени -->
-                    <TextBox 
-                        Text="{Binding CurrentContact.Name, UpdateSourceTrigger=PropertyChanged}" 
-                        IsReadOnly="{Binding IsViewMode}"
-                        Margin="0,0,0,10" 
-                        Padding="3">
-                        <TextBox.Style>
-                            <Style TargetType="TextBox">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsViewMode}" Value="True">
-                                        <Setter Property="Background" Value="#F0F0F0"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsViewMode}" Value="False">
-                                        <Setter Property="Background" Value="White"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
-
-                    <!-- Поле Phone -->
-                    <TextBlock Text="Телефон:" Margin="0,0,0,3"/>
-
-                    <!-- Поле для ввода/отображения телефона -->
-                    <TextBox 
-                        Text="{Binding CurrentContact.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" 
-                        IsReadOnly="{Binding IsViewMode}"
-                        Margin="0,0,0,10" 
-                        Padding="3">
-                        <TextBox.Style>
-                            <Style TargetType="TextBox">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsViewMode}" Value="True">
-                                        <Setter Property="Background" Value="#F0F0F0"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsViewMode}" Value="False">
-                                        <Setter Property="Background" Value="White"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
-
-                    <!-- Поле Email -->
-                    <TextBlock Text="Email:" Margin="0,0,0,3"/>
-
-                    <!-- Поле для ввода/отображения email -->
-                    <TextBox 
-                        Text="{Binding CurrentContact.Email, UpdateSourceTrigger=PropertyChanged}" 
-                        IsReadOnly="{Binding IsViewMode}"
-                        Margin="0,0,0,10" 
-                        Padding="3">
-                        <TextBox.Style>
-                            <Style TargetType="TextBox">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsViewMode}" Value="True">
-                                        <Setter Property="Background" Value="#F0F0F0"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsViewMode}" Value="False">
-                                        <Setter Property="Background" Value="White"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
-                </StackPanel>
+                <controls:ContactControl Grid.Row="0" DataContext="{Binding CurrentContact}"/>
 
                 <!-- Кнопки Apply и Cancel -->
                 <StackPanel Grid.Row="1" 
@@ -169,14 +118,14 @@
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Bottom"
                             Margin="0,0,0,10">
-                    <Button Content="Apply" 
+                    <Button Content="Применить" 
                             Width="75" 
                             Height="25"
                             Margin="0,0,5,0"
                             Command="{Binding ApplyCommand}"
                             IsEnabled="{Binding IsApplyEnabled}"
                             Visibility="{Binding IsApplyVisible, Converter={StaticResource BoolToVisConverter}}"/>
-                    <Button Content="Cancel" 
+                    <Button Content="Отмена" 
                             Width="75" 
                             Height="25"
                             Margin="5,0,0,0"
