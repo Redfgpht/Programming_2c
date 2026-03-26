@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Contacts.ViewModel;
 
-namespace View
+namespace Contacts.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -12,6 +12,11 @@ namespace View
         {
             InitializeComponent();
             DataContext = new MainVM();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

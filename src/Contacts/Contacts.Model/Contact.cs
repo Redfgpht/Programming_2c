@@ -10,23 +10,52 @@ namespace Contacts.Model
 {
     /// <summary>
     /// Представляет модель контакта с валидацией данных.
+    /// Реализует интерфейсы INotifyPropertyChanged для уведомления об изменениях свойств
+    /// и INotifyDataErrorInfo для валидации данных на уровне модели.
     /// </summary>
-    public partial class Contact : ObservableValidator, INotifyDataErrorInfo
+    public class Contact : ObservableObject, INotifyDataErrorInfo
     {
+        #region Constants
+
+        /// <summary>
+        /// Максимальная длина текстовых полей (имя, телефон, email).
+        /// </summary>
         private const int MaxLength = 100;
-        private readonly Regex _phoneRegex = new(@"^[0-9+\-\(\)\s]*$");
-        private readonly Regex _emailRegex = new(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+        #endregion
+
+        #region Private Fields
 
         private string _name = string.Empty;
         private string _phoneNumber = string.Empty;
         private string _email = string.Empty;
         private string _photoPath = string.Empty;
 
-        // Словарь для ошибок валидации
+        /// <summary>
+        /// Словарь для хранения ошибок валидации по свойствам.
+        /// Ключ - имя свойства, значение - список ошибок.
+        /// </summary>
         private readonly Dictionary<string, List<string>> _errors = new();
 
         /// <summary>
+        /// Регулярное выражение для проверки номера телефона.
+        /// Разрешает цифры и символы: + - ( )
+        /// </summary>
+        private readonly Regex _phoneRegex = new(@"^[0-9+\-\(\)\s]*$");
+
+        /// <summary>
+        /// Регулярное выражение для проверки email адреса.
+        /// Проверяет наличие символа @ и доменной части.
+        /// </summary>
+        private readonly Regex _emailRegex = new(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
         /// Инициализирует новый экземпляр класса Contact с пустыми значениями.
+        /// Выполняет начальную валидацию всех свойств.
         /// </summary>
         public Contact()
         {
@@ -36,10 +65,10 @@ namespace Contacts.Model
         /// <summary>
         /// Инициализирует новый экземпляр класса Contact с указанными значениями.
         /// </summary>
-        /// <param name="name">Имя контакта.</param>
-        /// <param name="phoneNumber">Номер телефона.</param>
-        /// <param name="email">Email адрес.</param>
-        /// <param name="photoPath">Путь к фото контакта.</param>
+        /// <param name="name">Имя контакта. Не может быть null.</param>
+        /// <param name="phoneNumber">Номер телефона контакта. Не может быть null.</param>
+        /// <param name="email">Email адрес контакта. Не может быть null.</param>
+        /// <param name="photoPath">Путь к файлу фотографии контакта. Необязательный параметр.</param>
         public Contact(string name, string phoneNumber, string email, string photoPath = "")
         {
             _name = name ?? string.Empty;
@@ -50,8 +79,13 @@ namespace Contacts.Model
             ValidateAllProperties();
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Имя контакта.
+        /// Получает или задает имя контакта.
+        /// При изменении значения выполняет валидацию и вызывает событие PropertyChanged.
         /// </summary>
         public string Name
         {
@@ -68,7 +102,8 @@ namespace Contacts.Model
         }
 
         /// <summary>
-        /// Номер телефона контакта.
+        /// Получает или задает номер телефона контакта.
+        /// При изменении значения выполняет валидацию и вызывает событие PropertyChanged.
         /// </summary>
         public string PhoneNumber
         {
@@ -85,7 +120,8 @@ namespace Contacts.Model
         }
 
         /// <summary>
-        /// Email контакта.
+        /// Получает или задает email адрес контакта.
+        /// При изменении значения выполняет валидацию и вызывает событие PropertyChanged.
         /// </summary>
         public string Email
         {
@@ -102,7 +138,8 @@ namespace Contacts.Model
         }
 
         /// <summary>
-        /// Путь к фото контакта.
+        /// Получает или задает путь к файлу фотографии контакта.
+        /// При изменении значения вызывает событие PropertyChanged.
         /// </summary>
         public string PhotoPath
         {
@@ -110,10 +147,13 @@ namespace Contacts.Model
             set => SetProperty(ref _photoPath, value);
         }
 
+        #endregion
+
         #region Validation Methods
 
         /// <summary>
         /// Выполняет валидацию имени контакта.
+        /// Проверяет, что имя не пустое и не превышает максимальную длину.
         /// </summary>
         private void ValidateName()
         {
@@ -133,6 +173,8 @@ namespace Contacts.Model
 
         /// <summary>
         /// Выполняет валидацию номера телефона.
+        /// Проверяет, что номер не пустой, не превышает максимальную длину
+        /// и содержит только допустимые символы (цифры, +, -, (, )).
         /// </summary>
         private void ValidatePhoneNumber()
         {
@@ -160,6 +202,8 @@ namespace Contacts.Model
 
         /// <summary>
         /// Выполняет валидацию email адреса.
+        /// Проверяет, что email не пустой, не превышает максимальную длину,
+        /// содержит символ @ и соответствует формату email.
         /// </summary>
         private void ValidateEmail()
         {
@@ -192,6 +236,7 @@ namespace Contacts.Model
 
         /// <summary>
         /// Выполняет валидацию всех свойств контакта.
+        /// Вызывается при создании объекта для начальной проверки.
         /// </summary>
         private void ValidateAllProperties()
         {
@@ -203,6 +248,8 @@ namespace Contacts.Model
         /// <summary>
         /// Обновляет список ошибок для указанного свойства.
         /// </summary>
+        /// <param name="propertyName">Имя свойства, для которого обновляются ошибки.</param>
+        /// <param name="errors">Список ошибок для свойства.</param>
         private void UpdateErrors(string propertyName, List<string> errors)
         {
             if (errors.Any())
@@ -228,7 +275,7 @@ namespace Contacts.Model
 
         #endregion
 
-        #region INotifyDataErrorInfo
+        #region INotifyDataErrorInfo Implementation
 
         /// <summary>
         /// Получает значение, указывающее, имеет ли объект ошибки валидации.
@@ -243,8 +290,8 @@ namespace Contacts.Model
         /// <summary>
         /// Возвращает список ошибок валидации для указанного свойства.
         /// </summary>
-        /// <param name="propertyName">Имя свойства.</param>
-        /// <returns>Коллекция ошибок.</returns>
+        /// <param name="propertyName">Имя свойства, для которого запрашиваются ошибки.</param>
+        /// <returns>Коллекция строк с ошибками валидации.</returns>
         public IEnumerable GetErrors(string? propertyName)
         {
             if (string.IsNullOrEmpty(propertyName) || !_errors.ContainsKey(propertyName))

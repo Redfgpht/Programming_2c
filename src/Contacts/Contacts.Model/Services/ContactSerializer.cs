@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using Contacts.Model;  // <-- Добавьте эту строку
+using Contacts.Model;
 
-namespace Contacts.Model.Services  // <-- Убедитесь, что пространство имен правильное
+namespace Contacts.Model.Services
 {
     /// <summary>
     /// Предоставляет методы для сериализации и десериализации коллекции контактов.
