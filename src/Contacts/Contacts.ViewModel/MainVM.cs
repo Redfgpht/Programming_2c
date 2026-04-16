@@ -23,7 +23,7 @@ namespace Contacts.ViewModel
         private ObservableCollection<Contact> _contacts;
 
         private Contact? _selectedContact;
-
+        // TODO: чем редактируемый контакт отличается от выбранного? Должны быть поясняющие комментарии.
         private Contact? _editingContact;
         private Contact? _originalEditingContact;
 
@@ -40,6 +40,7 @@ namespace Contacts.ViewModel
         /// </summary>
         public MainVM()
         {
+            // TODO: инициализацию вынести в поле
             _serializer = new ContactSerializer();
 
             var loadedContacts = _serializer.LoadContacts();
@@ -63,11 +64,14 @@ namespace Contacts.ViewModel
             get => _selectedContact;
             set
             {
+                // TODO: инвертировать условие, надо стараться уменьшать вложенность логики
                 if (_selectedContact != value)
                 {
                     _selectedContact = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(CurrentContact));
+                    // TODO: есть автоматические механизмы по обновлению состояния команд,
+                    // используй их. Ручного вызова здесь и нигде дальше быть не должно.
                     (EditCommand as RelayCommand)?.NotifyCanExecuteChanged();
                     (RemoveCommand as RelayCommand)?.NotifyCanExecuteChanged();
                 }
@@ -85,6 +89,10 @@ namespace Contacts.ViewModel
                 if (_isEditing != value)
                 {
                     _isEditing = value;
+
+                    // TODO: таких портянок с обновлениями быть не должно.
+                    // Почему обновилось одно свойство, а ты сообщаешь об обновлении 8 объектов?
+                    // Исправить. Здесь и везде ниже
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(IsEditingOrAdding));
                     OnPropertyChanged(nameof(IsNotEditingOrAdding));
@@ -163,6 +171,8 @@ namespace Contacts.ViewModel
         /// </summary>
         public Contact? CurrentContact => IsEditing || IsAdding ? EditingContact : SelectedContact;
 
+        // TODO: слишком много булевых флагов ниже. Достаточно только двух.
+        // Если в View тебе понадобятся инвертированные значения, это можно сделать конвертерами
         /// <summary>
         /// Указывает, выполняется ли редактирование или добавление контакта.
         /// </summary>
@@ -235,6 +245,7 @@ namespace Contacts.ViewModel
             if (SelectedContact != null)
             {
                 _originalEditingContact = SelectedContact;
+                // TODO: сделать конструктор копирования или ICloneable
                 EditingContact = new Contact
                 {
                     Name = SelectedContact.Name,
@@ -279,6 +290,10 @@ namespace Contacts.ViewModel
         [RelayCommand(CanExecute = nameof(CanApply))]
         private void Apply()
         {
+            // TODO: как-то всё слишком сложно.
+            // Команда Apply срабатывает при условии, что всё введено корректно.
+            // Значит, надо просто добавить новый контакт/заменить старый контакт в списке.
+            // А здесь какая-то куча проверок. Исправить
             if (EditingContact == null)
             {
                 Cancel();
@@ -368,6 +383,9 @@ namespace Contacts.ViewModel
         /// </summary>
         private void Contact_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
+            // TODO: не должно быть такого обработчика, который на изменение любого поля в контакте
+            // пересохраняет все контакты в файле. Это же не рационально!
+            // Сохранение должно вызываться напрямую в конкретных методах - закрытие программы (корректное и некорректное) и Apply
             _serializer.SaveContacts(Contacts);
         }
 
@@ -376,10 +394,16 @@ namespace Contacts.ViewModel
         /// </summary>
         private void EditingContact_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
+            // TODO: лишний обработчик, переделать без него
             OnPropertyChanged(nameof(IsApplyEnabled));
             (ApplyCommand as RelayCommand)?.NotifyCanExecuteChanged();
         }
 
+        // TODO: Проверка валидности контакта - не должно быть обязанностью MainVM. Вынести в отдельный класс.
+        // TODO: Название метода говорит о проверки валидности контакта,
+        // но здесь проверяется только не пустые строки, а валидация контакта - гораздо шире.
+        // Метод неправильно назван или метод неправильно делает валидацию?
+        // Разве класс контакта уже не делает валидацию самого себя? Почему не использовать информацию об ошибках из самого объекта?
         /// <summary>
         /// Проверяет, заполнены ли обязательные поля контакта.
         /// </summary>

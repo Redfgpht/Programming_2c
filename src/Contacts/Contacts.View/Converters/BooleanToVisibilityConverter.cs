@@ -5,6 +5,7 @@ using System.Windows.Data;
 
 namespace Contacts.View.Converters
 {
+    // TODO: xml-комментарии
     public class BooleanToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

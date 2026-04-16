@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+// TODO: Сделать filescoped namespace. Исправить во всём решении
 namespace Contacts.Model
 {
     /// <summary>
@@ -15,6 +16,10 @@ namespace Contacts.Model
     /// </summary>
     public class Contact : ObservableObject, INotifyDataErrorInfo
     {
+        // TODO: не надо использовать регионы, это антипаттерн оформления кода:
+        // если в регионах мало кода, то он только мешает читать код.
+        // А если в регионах много кода, то это признак, что класс слишком большой.
+        // Удалить регионы везде
         #region Constants
 
         /// <summary>
@@ -137,6 +142,8 @@ namespace Contacts.Model
             }
         }
 
+        // TODO: здесь не путь должен быть. Здесь либо фотография как массив байтов byte[],
+        // либо рисунок, закодированный в base64-строку, но пути к файлам - это ненадежный вариант
         /// <summary>
         /// Получает или задает путь к файлу фотографии контакта.
         /// При изменении значения вызывает событие PropertyChanged.
