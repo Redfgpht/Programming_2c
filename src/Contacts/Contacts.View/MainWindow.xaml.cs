@@ -13,10 +13,5 @@ namespace Contacts.View
             InitializeComponent();
             DataContext = new MainVM();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

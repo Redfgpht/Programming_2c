@@ -4,75 +4,57 @@ using System.IO;
 using Newtonsoft.Json;
 using Contacts.Model;
 
-namespace Contacts.Model.Services
+namespace Contacts.Model.Services;
+
+/// <summary>
+/// Предоставляет методы для сериализации и десериализации коллекции контактов.
+/// </summary>
+public class ContactSerializer
 {
+    private readonly string _filePath;
+
     /// <summary>
-    /// Предоставляет методы для сериализации и десериализации коллекции контактов.
+    /// Инициализирует новый экземпляр класса ContactSerializer.
     /// </summary>
-    public class ContactSerializer
+    public ContactSerializer()
     {
-        /// <summary>
-        /// Путь к файлу для сохранения контактов.
-        /// </summary>
-        private readonly string _filePath;
+        string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        string contactsDirectory = Path.Combine(documentsPath, "Contacts");
 
-        /// <summary>
-        /// Инициализирует новый экземпляр класса ContactSerializer.
-        /// </summary>
-        public ContactSerializer()
+        if (!Directory.Exists(contactsDirectory))
         {
-            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string contactsDirectory = Path.Combine(documentsPath, "Contacts");
-
-            // Создаем директорию, если она не существует
-            if (!Directory.Exists(contactsDirectory))
-            {
-                Directory.CreateDirectory(contactsDirectory);
-            }
-
-            _filePath = Path.Combine(contactsDirectory, "contacts.json");
+            Directory.CreateDirectory(contactsDirectory);
         }
 
-        /// <summary>
-        /// Сохраняет коллекцию контактов в файл.
-        /// </summary>
-        /// <param name="contacts">Коллекция контактов для сохранения.</param>
-        public void SaveContacts(IEnumerable<Contact> contacts)
+        _filePath = Path.Combine(contactsDirectory, "contacts.json");
+    }
+
+    /// <summary>
+    /// Сохраняет коллекцию контактов в файл.
+    /// </summary>
+    /// <param name="contacts">Коллекция контактов для сохранения.</param>
+    /// <exception cref="IOException">Возникает при ошибке записи в файл.</exception>
+    /// <exception cref="JsonException">Возникает при ошибке сериализации.</exception>
+    public void SaveContacts(IEnumerable<Contact> contacts)
+    {
+        string json = JsonConvert.SerializeObject(contacts, Formatting.Indented);
+        File.WriteAllText(_filePath, json);
+    }
+
+    /// <summary>
+    /// Загружает коллекцию контактов из файла.
+    /// </summary>
+    /// <returns>Загруженная коллекция контактов или пустая коллекция, если файл не найден.</returns>
+    /// <exception cref="IOException">Возникает при ошибке чтения файла.</exception>
+    /// <exception cref="JsonException">Возникает при ошибке десериализации.</exception>
+    public List<Contact> LoadContacts()
+    {
+        if (File.Exists(_filePath))
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(contacts, Formatting.Indented);
-                File.WriteAllText(_filePath, json);
-            }
-            catch (Exception)
-            {
-                // TODO: почему игнорируем? Пользователь данные потеряет, если не удастся сохранить.
-                // Прокидывай исключение дальше и показывай пользователю месседжбокс.
-                // Игнорируем ошибки
-            }
+            string json = File.ReadAllText(_filePath);
+            return JsonConvert.DeserializeObject<List<Contact>>(json) ?? new List<Contact>();
         }
 
-        /// <summary>
-        /// Загружает коллекцию контактов из файла.
-        /// </summary>
-        /// <returns>Загруженная коллекция контактов или пустая коллекция, если файл не найден.</returns>
-        public List<Contact> LoadContacts()
-        {
-            try
-            {
-                if (File.Exists(_filePath))
-                {
-                    string json = File.ReadAllText(_filePath);
-                    return JsonConvert.DeserializeObject<List<Contact>>(json) ?? new List<Contact>();
-                }
-            }
-            catch (Exception)
-            {
-                // TODO: прокидывай исключение дальше и показывай сообщение об ошибке пользователю
-                // Игнорируем ошибки
-            }
-
-            return new List<Contact>();
-        }
+        return new List<Contact>();
     }
 }
